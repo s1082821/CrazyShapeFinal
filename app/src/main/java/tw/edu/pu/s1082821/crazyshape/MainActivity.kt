@@ -28,6 +28,17 @@ class MainActivity : AppCompatActivity() {
             .override(800, 600)
             .into(imgView)
 
+        imgNext.setOnLongClickListener(object : View.OnLongClickListener {
+            override fun onLongClick(p0: View?): Boolean {
+                intent = Intent(this@MainActivity, GameActivity::class.java).apply {
+                    putExtra("形狀", Flag)
+                }
+                //startActivity(intent)
+                startActivityForResult(intent, 101)
+                return true
+            }
+        })
+
         imgNext.setOnClickListener(object:View.OnClickListener{
             override fun onClick(p0: View?) {
                 rndShape()
@@ -43,16 +54,16 @@ class MainActivity : AppCompatActivity() {
             3->imgNext.setImageResource(R.drawable.star)
             4->imgNext.setImageResource(R.drawable.triangle)
         }
-
-        imgNext.setOnLongClickListener(object : View.OnLongClickListener {
-            override fun onLongClick(p0: View?): Boolean {
-                intent = Intent(this@MainActivity, GameActivity::class.java).apply {
-                    putExtra("形狀", Flag)
-                }
-                startActivity(intent)
-                return true
-            }
-        })
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == 101){
+            intent = Intent(this@MainActivity, MainActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+    }
+
 }
 
